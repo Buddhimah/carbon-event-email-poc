@@ -1,0 +1,5 @@
+org/wso2/carbon/event/email/poc/TenantEmailEventAdapterFactory.class
+org/wso2/carbon/event/email/poc/internal/EmailEventAdapterFactoryDataHolder.class
+org/wso2/carbon/event/email/poc/internal/EmailEventAdapterFactoryServiceDS.class
+org/wso2/carbon/event/email/poc/TenantAwareAxis2ConfigurationContextObserver.class
+org/wso2/carbon/event/email/poc/TenantAwareEmailEventAdapter.class

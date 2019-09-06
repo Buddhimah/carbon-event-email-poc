@@ -1,0 +1,25 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.wso2.carbon.event.email.poc
+Built-By: buddhima
+Bundle-ManifestVersion: 2
+Bnd-LastModified: 1567692271798
+Import-Package: org.apache.axis2.context;version="[1.6,2)",org.apache.
+ commons.logging;version="[1.2,2)",org.osgi.framework;version="[1.5,2)
+ ",org.osgi.service.component;version="[1.2,2)",org.wso2.carbon.event.
+ output.adapter.core;version="[5.2,6)",org.wso2.carbon.event.output.ad
+ apter.email;version="[5.2,6)",org.wso2.carbon.event.publisher.core;ve
+ rsion="[5.2,6)",org.wso2.carbon.event.publisher.core.exception;versio
+ n="[5.2,6)",org.wso2.carbon.utils;version="[4.5,5)"
+Service-Component: OSGI-INF/serviceComponents.xml
+DynamicImport-Package: *
+Tool: Bnd-1.43.0
+Export-Package: org.wso2.carbon.event.email.poc;uses:="org.wso2.carbon
+ .event.publisher.core.exception,org.apache.commons.logging,org.wso2.c
+ arbon.event.publisher.core,org.apache.axis2.context,org.wso2.carbon.u
+ tils,org.wso2.carbon.event.output.adapter.core,org.wso2.carbon.event.
+ output.adapter.email";version="1.0.0.SNAPSHOT"
+Bundle-Version: 1.0.0.SNAPSHOT
+Bundle-Name: org.wso2.carbon.event.email.poc
+Created-By: Apache Maven Bundle Plugin
+Build-Jdk: 1.8.0_201
+

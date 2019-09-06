@@ -1,0 +1,5 @@
+/Users/buddhima/IDS/WSO2/dev/Repos/identity-notification-buddhimah/carbon-event-email-poc/src/main/java/org/wso2/carbon/event/email/poc/TenantAwareAxis2ConfigurationContextObserver.java
+/Users/buddhima/IDS/WSO2/dev/Repos/identity-notification-buddhimah/carbon-event-email-poc/src/main/java/org/wso2/carbon/event/email/poc/TenantAwareEmailEventAdapter.java
+/Users/buddhima/IDS/WSO2/dev/Repos/identity-notification-buddhimah/carbon-event-email-poc/src/main/java/org/wso2/carbon/event/email/poc/internal/EmailEventAdapterFactoryDataHolder.java
+/Users/buddhima/IDS/WSO2/dev/Repos/identity-notification-buddhimah/carbon-event-email-poc/src/main/java/org/wso2/carbon/event/email/poc/internal/EmailEventAdapterFactoryServiceDS.java
+/Users/buddhima/IDS/WSO2/dev/Repos/identity-notification-buddhimah/carbon-event-email-poc/src/main/java/org/wso2/carbon/event/email/poc/TenantEmailEventAdapterFactory.java
