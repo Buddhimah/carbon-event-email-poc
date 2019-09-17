@@ -6,9 +6,8 @@ import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.event.email.poc.TenantAwareAxis2ConfigurationContextObserver;
 import org.wso2.carbon.event.email.poc.TenantEmailEventAdapterFactory;
 import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterService;
-import org.wso2.carbon.event.output.adapter.core.internal.CarbonOutputEventAdapterService;
 import org.wso2.carbon.event.publisher.core.EventPublisherService;
-import org.wso2.carbon.event.publisher.core.internal.CarbonEventPublisherService;
+import org.wso2.carbon.event.stream.core.EventStreamService;
 import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 import org.wso2.carbon.utils.Axis2ConfigurationContextObserver;
 
@@ -23,6 +22,9 @@ import org.wso2.carbon.utils.Axis2ConfigurationContextObserver;
  * @scr.reference name="eventPublisherService"
  * interface="org.wso2.carbon.event.publisher.core.EventPublisherService" cardinality="1..1"
  * policy="dynamic" bind="setCarbonEventPublisherService" unbind="unsetCarbonEventPublisherService"
+ * @scr.reference name="eventStreamService"
+ * interface="org.wso2.carbon.event.stream.core.EventStreamService" cardinality="1..1"
+ * policy="dynamic" bind="setCarbonEventStreamService" unbind="unsetCarbonEventStreamService"
  */
 
 public class EmailEventAdapterFactoryServiceDS extends AbstractAxis2ConfigurationContextObserver {
@@ -72,7 +74,7 @@ public class EmailEventAdapterFactoryServiceDS extends AbstractAxis2Configuratio
         if (log.isDebugEnabled()) {
             log.debug("Setting the CarbonOutputEventAdapter Service");
         }
-        EmailEventAdapterFactoryDataHolder.getInstance().setCarbonOutputEventAdapterService((CarbonOutputEventAdapterService) carbonOutputEventAdapterService);
+        EmailEventAdapterFactoryDataHolder.getInstance().setCarbonOutputEventAdapterService(carbonOutputEventAdapterService);
 
     }
 
@@ -89,7 +91,7 @@ public class EmailEventAdapterFactoryServiceDS extends AbstractAxis2Configuratio
         if (log.isDebugEnabled()) {
             log.debug("Setting the CarbonEventPublisherService");
         }
-        EmailEventAdapterFactoryDataHolder.getInstance().setCarbonEventPublisherService((CarbonEventPublisherService) carbonEventPublisherService);
+        EmailEventAdapterFactoryDataHolder.getInstance().setCarbonEventPublisherService(carbonEventPublisherService);
 
     }
 
@@ -98,6 +100,22 @@ public class EmailEventAdapterFactoryServiceDS extends AbstractAxis2Configuratio
             log.debug("Un Setting theCarbonEventPublisherService Service");
         }
         EmailEventAdapterFactoryDataHolder.getInstance().setCarbonEventPublisherService(null);
+
+    }
+
+    protected void setCarbonEventStreamService(EventStreamService carbonEventStreamService){
+        if (log.isDebugEnabled()) {
+            log.debug("Setting the CarbonEventPublisherService");
+        }
+        EmailEventAdapterFactoryDataHolder.getInstance().setCarbonEventStreamService(carbonEventStreamService);
+
+    }
+
+    protected void unsetCarbonEventStreamService(EventStreamService carbonEventStreamService){
+        if (log.isDebugEnabled()) {
+            log.debug("Un Setting theCarbonEventPublisherService Service");
+        }
+        EmailEventAdapterFactoryDataHolder.getInstance().setCarbonEventStreamService(null);
 
     }
 

@@ -6,7 +6,6 @@ import org.apache.commons.logging.LogFactory;
 import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterConfiguration;
 import org.wso2.carbon.event.output.adapter.core.exception.ConnectionUnavailableException;
 import org.wso2.carbon.event.output.adapter.email.EmailEventAdapter;
-import org.wso2.carbon.event.output.adapter.email.internal.util.EmailEventAdapterConstants;
 
 import java.util.Map;
 import java.util.Properties;
@@ -59,8 +58,8 @@ public class TenantAwareEmailEventAdapter extends EmailEventAdapter {
             //Verifying default SMTP properties of the SMTP server.
 
             smtpFrom = props.getProperty(MailConstants.MAIL_SMTP_FROM);
-            smtpHost = props.getProperty(EmailEventAdapterConstants.MAIL_SMTP_HOST);
-            smtpPort = props.getProperty(EmailEventAdapterConstants.MAIL_SMTP_PORT);
+            smtpHost = props.getProperty("mail.smtp.host");
+            smtpPort = props.getProperty("mail.smtp.port");
 
             if (smtpFrom == null) {
                 String msg = "failed to connect to the mail server due to null smtpFrom value";

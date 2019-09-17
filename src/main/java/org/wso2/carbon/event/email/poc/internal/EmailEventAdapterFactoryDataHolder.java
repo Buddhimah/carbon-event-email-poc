@@ -1,8 +1,8 @@
 package org.wso2.carbon.event.email.poc.internal;
 
-import org.wso2.carbon.event.output.adapter.core.internal.CarbonOutputEventAdapterService;
+import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterService;
 import org.wso2.carbon.event.publisher.core.EventPublisherService;
-import org.wso2.carbon.event.publisher.core.internal.CarbonEventPublisherService;
+import org.wso2.carbon.event.stream.core.EventStreamService;
 
 public class EmailEventAdapterFactoryDataHolder {
 
@@ -18,8 +18,9 @@ public class EmailEventAdapterFactoryDataHolder {
     }
 
     private EventPublisherService eventPublisherService = null;
-    private CarbonOutputEventAdapterService carbonOutputEventAdapterService = null;
-    private CarbonEventPublisherService carbonEventPublisherService = null;
+    private OutputEventAdapterService carbonOutputEventAdapterService = null;
+    private EventPublisherService carbonEventPublisherService = null;
+    private EventStreamService carbonEventStreamService = null;
 
     public void setEventPublisherService(EventPublisherService eventPublisherService) {
         this.eventPublisherService = eventPublisherService;
@@ -29,19 +30,27 @@ public class EmailEventAdapterFactoryDataHolder {
         return eventPublisherService;
     }
 
-    public CarbonOutputEventAdapterService getCarbonOutputEventAdapterService() {
+    public OutputEventAdapterService getCarbonOutputEventAdapterService() {
         return carbonOutputEventAdapterService;
     }
 
-    public void setCarbonOutputEventAdapterService(CarbonOutputEventAdapterService carbonOutputEventAdapterService) {
+    public void setCarbonOutputEventAdapterService(OutputEventAdapterService carbonOutputEventAdapterService) {
         this.carbonOutputEventAdapterService = carbonOutputEventAdapterService;
     }
 
-    public CarbonEventPublisherService getCarbonEventPublisherService() {
+    public EventPublisherService getCarbonEventPublisherService() {
         return carbonEventPublisherService;
     }
 
-    public void setCarbonEventPublisherService(CarbonEventPublisherService carbonEventPublisherService) {
+    public void setCarbonEventPublisherService(EventPublisherService carbonEventPublisherService) {
         this.carbonEventPublisherService = carbonEventPublisherService;
+    }
+
+    public void setCarbonEventStreamService(EventStreamService carbonEventStreamService) {
+        this.carbonEventStreamService = carbonEventStreamService;
+    }
+
+    public  EventStreamService  getCarbonEventStreamService(){
+        return carbonEventStreamService;
     }
 }
