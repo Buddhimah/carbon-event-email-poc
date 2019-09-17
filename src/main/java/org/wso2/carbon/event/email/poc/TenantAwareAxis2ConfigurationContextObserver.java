@@ -3,8 +3,10 @@ package org.wso2.carbon.event.email.poc;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.event.email.poc.internal.EmailEventAdapterFactoryDataHolder;
 import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterConfiguration;
+import org.wso2.carbon.event.publisher.core.config.EventPublisherConfiguration;
 import org.wso2.carbon.event.publisher.core.exception.EventPublisherConfigurationException;
 import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 
@@ -14,11 +16,19 @@ public class TenantAwareAxis2ConfigurationContextObserver extends AbstractAxis2C
 
     public void creatingConfigurationContext(int tenantId) {
         log.info("creating configuration context for tenant id: " + tenantId);
+
+        PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(-1234);
         try {
 
-            OutputEventAdapterConfiguration toAdapterConfiguration =
+            EventPublisherConfiguration eventPublisherConfiguration =
                     EmailEventAdapterFactoryDataHolder.getInstance().getEventPublisherService()
-                    .getActiveEventPublisherConfiguration("EmailPublisher", -1234).getToAdapterConfiguration();
+                    .getActiveEventPublisherConfiguration("EmailPublisher");
+            PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
+
+            OutputEventAdapterConfiguration toAdapterConfiguration =
+                    eventPublisherConfiguration.getToAdapterConfiguration();
+
+            EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventPublisherService().addEventPublisherConfiguration(eventPublisherConfiguration);
 
             EmailEventAdapterFactoryDataHolder.getInstance().getCarbonOutputEventAdapterService().create(toAdapterConfiguration);
 

@@ -1,0 +1,10 @@
+
+Û%squid:RedundantThrowsDeclarationCheck$"Remove the declaration of thrown exception 'org.wso2.carbon.event.output.adapter.core.exception.ConnectionUnavailableException' which is a runtime exception.(´òıÉüÿÿÿÿ8ü§ìÏÑ-
+psquid:S1192C"MDefine a constant instead of duplicating this literal "The adapter " 4 times.(†ëùÿÿÿÿÿ8ü§ìÏÑ-
+Ysquid:S1068"6Remove this unused "threadPoolExecutor" private field.(áö˜«ûÿÿÿÿ8ü§ìÏÑ-
+Qsquid:S1068"3Remove this unused "smtpFromAddress" private field.(ûÃŸ½8ü§ìÏÑ-
+|squid:S1450"^Remove the "smtpFromAddress" field and declare it as a local variable in the relevant methods.(ûÃŸ½8ü§ìÏÑ-
+Tsquid:S2696g"6Make the enclosing method "static" or remove this set.(¿ 8ü§ìÏÑ-
+Tsquid:S2696n"6Make the enclosing method "static" or remove this set.(­Âåœ8ü§ìÏÑ-
+]squid:S1161$":Add the "@Override" annotation above this method signature(´òıÉüÿÿÿÿ8ü§ìÏÑ-
+Xsquid:S1161i":Add the "@Override" annotation above this method signature(”Ô°Â8ü§ìÏÑ-

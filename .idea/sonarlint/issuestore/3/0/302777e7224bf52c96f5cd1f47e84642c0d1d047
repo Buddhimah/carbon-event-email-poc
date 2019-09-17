@@ -1,0 +1,6 @@
+
+csquid:S1172Q"FRemove this unused method parameter "carbonOutputEventAdapterService".(Œ¬ÁT8ˆ³¶ÓÑ-
+|squid:UselessImportCheck"LRemove this unused import 'org.osgi.service.component.annotations.Activate'.(ÇÎÆ ùÿÿÿÿ8ê¨ìÏÑ-
+esquid:S1172b"BRemove this unused method parameter "carbonEventPublisherService".(ÿ¹òêúÿÿÿÿ8åÙÛÓÑ-
+Zsquid:S1172B"<Remove this unused method parameter "eventPublisherService".(“¸ãŒ8¿¡™ŒÐ-
+xsquid:UselessImportCheck"MRemove this unused import 'org.osgi.service.component.annotations.Component'.(ÓÇ”ý8ê¨ìÏÑ-

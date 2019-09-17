@@ -1,0 +1,9 @@
+
+]squid:S1161":Add the "@Override" annotation above this method signature(¬¼ÆĞúÿÿÿÿ8¾é‰Ğ-
+„squid:UselessImportCheck"YRemove this unused import 'org.wso2.carbon.event.output.adapter.email.EmailEventAdapter'.(–ÿÛ8Ÿî§‰Ğ-
+Wsquid:S1161":Add the "@Override" annotation above this method signature(€‰»8¾é‰Ğ-
+]squid:S1161!":Add the "@Override" annotation above this method signature(ÂÃ¨úıÿÿÿÿ8¾é‰Ğ-
+]squid:S1161":Add the "@Override" annotation above this method signature(¹éÄÖûÿÿÿÿ8¾é‰Ğ-
+Isquid:S1168"+Return an empty collection instead of null.(¥¹ï8¾é‰Ğ-
+Xsquid:S1161&":Add the "@Override" annotation above this method signature(¯òûÖ8¾é‰Ğ-
+|squid:S2293"YReplace the type specification in this constructor call with the diamond operator ("<>").(ç¬Ò¶ıÿÿÿÿ8¾é‰Ğ-
