@@ -3,14 +3,15 @@ package org.wso2.carbon.event.email.poc;
 import org.apache.axis2.context.ConfigurationContext;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.wso2.carbon.context.CarbonContext;
 import org.wso2.carbon.context.PrivilegedCarbonContext;
+import org.wso2.carbon.databridge.commons.StreamDefinition;
 import org.wso2.carbon.event.email.poc.internal.EmailEventAdapterFactoryDataHolder;
-import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterConfiguration;
 import org.wso2.carbon.event.publisher.core.config.EventPublisherConfiguration;
 import org.wso2.carbon.event.stream.core.EventStreamConfiguration;
 import org.wso2.carbon.utils.AbstractAxis2ConfigurationContextObserver;
 import org.wso2.carbon.utils.multitenancy.MultitenantConstants;
+
+import java.util.List;
 
 public class TenantAwareAxis2ConfigurationContextObserver extends AbstractAxis2ConfigurationContextObserver {
 
@@ -18,21 +19,21 @@ public class TenantAwareAxis2ConfigurationContextObserver extends AbstractAxis2C
 
     public void creatingConfigurationContext(int tenantId) {
         log.info("creating configuration context for tenant id: " + tenantId);
-        String tenantDomain = "";
-        EventPublisherConfiguration eventPublisherConfiguration = null;
-        EventStreamConfiguration eventStreamConfiguration = null;
+        String tenantDomain = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantDomain();
+        List<EventPublisherConfiguration> activeEventPublisherConfigurations = null;
+        List<EventStreamConfiguration> eventStreamConfigurationList = null;
+        List<StreamDefinition> streamDefinitionList = null;
         try {
             PrivilegedCarbonContext.startTenantFlow();
             PrivilegedCarbonContext carbonContext = PrivilegedCarbonContext.getThreadLocalCarbonContext();
-            tenantDomain = carbonContext.getTenantDomain();
             carbonContext.setTenantId(MultitenantConstants.SUPER_TENANT_ID);
             carbonContext.setTenantDomain(MultitenantConstants.SUPER_TENANT_DOMAIN_NAME);
 
-            eventPublisherConfiguration =
-                    EmailEventAdapterFactoryDataHolder.getInstance().getEventPublisherService()
-                            .getActiveEventPublisherConfiguration("EmailPublisher");
-            eventStreamConfiguration =
-                    EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventStreamService().getEventStreamConfiguration("id_gov_notify_stream");
+            activeEventPublisherConfigurations = EmailEventAdapterFactoryDataHolder.getInstance()
+                    .getEventPublisherService().getAllActiveEventPublisherConfigurations();
+
+            eventStreamConfigurationList = EmailEventAdapterFactoryDataHolder.getInstance()
+                    .getCarbonEventStreamService().getAllEventStreamConfigurations();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -42,22 +43,29 @@ public class TenantAwareAxis2ConfigurationContextObserver extends AbstractAxis2C
         }
 
         try {
-
-
             PrivilegedCarbonContext.startTenantFlow();
             PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantId(tenantId);
             PrivilegedCarbonContext.getThreadLocalCarbonContext().setTenantDomain(tenantDomain);
 
-            OutputEventAdapterConfiguration toAdapterConfiguration =
-                    eventPublisherConfiguration.getToAdapterConfiguration();
+            for (EventStreamConfiguration eventStreamConfiguration : eventStreamConfigurationList) {
+                if (EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventStreamService()
+                        .getEventStreamConfiguration(eventStreamConfiguration.getStreamDefinition().getStreamId())
+                        == null) {
+                    EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventStreamService()
+                            .addEventStreamConfig(eventStreamConfiguration);
 
-            EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventStreamService().addEventStreamConfig(eventStreamConfiguration);
-            EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventPublisherService()
-             .addEventPublisherConfiguration(eventPublisherConfiguration);
+                }
+            }
 
+            for (EventPublisherConfiguration eventPublisherConfiguration : activeEventPublisherConfigurations) {
+                if (EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventPublisherService()
+                        .getActiveEventPublisherConfiguration(eventPublisherConfiguration.getEventPublisherName())
+                        == null) {
+                    EmailEventAdapterFactoryDataHolder.getInstance().getCarbonEventPublisherService()
+                            .addEventPublisherConfiguration(eventPublisherConfiguration);
+                }
 
-            EmailEventAdapterFactoryDataHolder.getInstance().getCarbonOutputEventAdapterService().create
-             (toAdapterConfiguration);
+            }
 
         } catch (Exception e) {
             e.printStackTrace();

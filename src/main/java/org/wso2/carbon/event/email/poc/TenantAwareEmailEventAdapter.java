@@ -3,10 +3,12 @@ package org.wso2.carbon.event.email.poc;
 import org.apache.axis2.transport.mail.MailConstants;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.wso2.carbon.context.PrivilegedCarbonContext;
 import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterConfiguration;
 import org.wso2.carbon.event.output.adapter.core.exception.ConnectionUnavailableException;
 import org.wso2.carbon.event.output.adapter.email.EmailEventAdapter;
 
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -19,7 +21,7 @@ import javax.mail.internet.InternetAddress;
 public class TenantAwareEmailEventAdapter extends EmailEventAdapter {
     private static final Log log = LogFactory.getLog(TenantAwareEmailEventAdapter.class);
     private static ThreadPoolExecutor threadPoolExecutor;
-    private static Session session;
+    private  Session session;
     private OutputEventAdapterConfiguration eventAdapterConfiguration;
     private Map<String, String> globalProperties;
     private int tenantId;
@@ -30,85 +32,38 @@ public class TenantAwareEmailEventAdapter extends EmailEventAdapter {
     public TenantAwareEmailEventAdapter(OutputEventAdapterConfiguration eventAdapterConfiguration,
             Map<String, String> globalProperties) {
         super(eventAdapterConfiguration, globalProperties);
+        this.globalProperties = globalProperties;
+        this.eventAdapterConfiguration = eventAdapterConfiguration;
     }
 
     public void connect() throws ConnectionUnavailableException {
+        tenantId = PrivilegedCarbonContext.getThreadLocalCarbonContext().getTenantId();
+
+        log.info("Connecting using the TenantAwareEmailEventAdapter for tenant ID: "+ tenantId);
 
         if (session == null) {
 
-            /**
-             * Default SMTP properties for outgoing messages.
-             */
-            String smtpFrom;
-            String smtpHost;
-            String smtpPort;
+            Map<String, String> propertiesMap = new HashMap<String, String>();
+            propertiesMap.put("mail.smtp.user", "resourcesiam5");
+            propertiesMap.put("mail.smtp.password", "xxxxx");
 
-
-            /**
-             *  Default from username and password for outgoing messages.
-             */
-            final String smtpUsername;
-            final String smtpPassword;
-
-
-            // initialize SMTP session.
-            Properties props = new Properties();
-            props.putAll(globalProperties);
-
-            //Verifying default SMTP properties of the SMTP server.
-
-            smtpFrom = props.getProperty(MailConstants.MAIL_SMTP_FROM);
-            smtpHost = props.getProperty("mail.smtp.host");
-            smtpPort = props.getProperty("mail.smtp.port");
-
-            if (smtpFrom == null) {
-                String msg = "failed to connect to the mail server due to null smtpFrom value";
-                throw new ConnectionUnavailableException("The adapter " +
-                        eventAdapterConfiguration.getName() + " " + msg);
-
+            if (tenantId != -1234) {
+                replaceGlobalPropertiesWithTenantProperties(globalProperties, propertiesMap);
             }
+           super.connect();
 
-            if (smtpHost == null) {
-                String msg = "failed to connect to the mail server due to null smtpHost value";
-                throw new ConnectionUnavailableException
-                        ("The adapter " + eventAdapterConfiguration.getName() + " " + msg);
-            }
-
-            if (smtpPort == null) {
-                String msg = "failed to connect to the mail server due to null smtpPort value";
-                throw new ConnectionUnavailableException
-                        ("The adapter " + eventAdapterConfiguration.getName() + " " + msg);
-            }
-
-
-            try {
-                smtpFromAddress = new InternetAddress(smtpFrom);
-            } catch (AddressException e) {
-                log.error("Error in retrieving smtp address : " +
-                        smtpFrom, e);
-                String msg = "failed to connect to the mail server due to error in retrieving " +
-                        "smtp from address";
-                throw new ConnectionUnavailableException
-                        ("The adapter " + eventAdapterConfiguration.getName() + " " + msg, e);
-            }
-
-            //Retrieving username and password of SMTP server.
-            smtpUsername = props.getProperty(MailConstants.MAIL_SMTP_USERNAME);
-            smtpPassword = props.getProperty(MailConstants.MAIL_SMTP_PASSWORD);
-
-
-            //initializing SMTP server to create session object.
-            if (smtpUsername != null && smtpPassword != null && !smtpUsername.isEmpty() && !smtpPassword.isEmpty()) {
-                session = Session.getInstance(props, new Authenticator() {
-                    public PasswordAuthentication
-                    getPasswordAuthentication() {
-                        return new PasswordAuthentication(smtpUsername, smtpPassword);
-                    }
-                });
-            } else {
-                session = Session.getInstance(props);
-                log.info("Connecting adapter " + eventAdapterConfiguration.getName() + "without user authentication for tenant " + tenantId);
-            }
         }
+    }
+
+    private void replaceGlobalPropertiesWithTenantProperties(Map<String, String> globalProps,
+            Map<String, String> tenantProps ){
+
+        for(String key : tenantProps.keySet()){
+            if(globalProps.containsKey(key)){
+                globalProps.put(key,tenantProps.get(key));
+            }
+
+        }
+
     }
 }

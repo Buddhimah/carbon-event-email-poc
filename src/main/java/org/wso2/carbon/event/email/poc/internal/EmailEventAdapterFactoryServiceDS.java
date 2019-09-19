@@ -5,6 +5,7 @@ import org.apache.commons.logging.LogFactory;
 import org.osgi.service.component.ComponentContext;
 import org.wso2.carbon.event.email.poc.TenantAwareAxis2ConfigurationContextObserver;
 import org.wso2.carbon.event.email.poc.TenantEmailEventAdapterFactory;
+import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterFactory;
 import org.wso2.carbon.event.output.adapter.core.OutputEventAdapterService;
 import org.wso2.carbon.event.publisher.core.EventPublisherService;
 import org.wso2.carbon.event.stream.core.EventStreamService;
@@ -40,7 +41,7 @@ public class EmailEventAdapterFactoryServiceDS extends AbstractAxis2Configuratio
 
         try {
             TenantEmailEventAdapterFactory tenantEmailEventAdapterFactory = new TenantEmailEventAdapterFactory();
-            context.getBundleContext().registerService(TenantEmailEventAdapterFactory.class.getName(),
+            context.getBundleContext().registerService(OutputEventAdapterFactory.class.getName(),
                     tenantEmailEventAdapterFactory, null);
 
             TenantAwareAxis2ConfigurationContextObserver tenantAwareAxis2ConfigurationContextObserver =
